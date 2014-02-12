@@ -1,0 +1,26 @@
+{
+    "name":     "marshaller-mw",
+    "version":  "0.0.1",
+    "main":     "index.js",
+    "dependencies": {
+        "lodash" :      "~2.3.0",
+        "sugar" :       "*",
+        "observer":     "~1.1.*",
+        "watchjs":      "*",
+        "property":     "*",
+        "jsclass":      "*",
+        "rekuire":      "*",
+        "inflection":   "*",
+        "prelude-ls":   "*",
+        "decorator-mw": "git://github.com/kristianmandrup/decorator-mw.git"
+    },
+    "scripts": {
+        "test": "mocha"
+    },
+    "devDependencies": {
+        "LiveScript": "*",
+        "mocha": "*",
+        "should": "*",
+        "chai": "*"
+    }
+}
