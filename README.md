@@ -4,7 +4,7 @@ Middleware to serialize object to server (remove or transform certain properties
 
 ## TODO
 
-* Create test suite
+* Complete test suite
 * Rename to MarshalMw ??
 
 ## Marshaller
@@ -24,3 +24,27 @@ store-mw-stack.run decorated-person
 ```
 
 See also [decorator-mw](https://github.com/kristianmandrup/decorator-mw)
+
+## Contributing
+
+Easier to use linking when developing multiple packages with inter-dependencies...
+
+* exec `npm link` on local dependent packages such decorator-mw
+* then exec `npm link xxxx` in this project to link to local package source
+
+Then whenever you change code in local `decorator-mw` folder, it will be reflected here
+since node module `decorator-mw` is now a symbolic link :)
+
+Please continue further development by a Test Driven approach (tests first)
+
+## Testing
+
+Use *mocha* :)
+
+`$ mocha test`
+
+Run particular test
+
+`$ mocha test/marshaller-mw/marshaller-mw_test.js`
+
+Easy :)
