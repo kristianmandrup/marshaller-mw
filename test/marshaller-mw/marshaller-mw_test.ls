@@ -1,3 +1,13 @@
+rek       = require 'rekuire'
+requires  = rek 'requires'
+
+requires.test 'test_setup'
+
+assert = require('chai').assert
+expect = require('chai').expect
+
+_  = require 'prelude-ls'
+
 Person              = requires.claszz 'person'
 DecorateMw          = require('decorate-mw')
 MarshallerMw        = require('marshaller-mw')
@@ -8,9 +18,8 @@ Middleware = middleware.Middleware
 
 load-mw-stack = new Middleware('model').use(decorate: DecorateMw)
 
-app ||=
-
-app.decorators = new ContextDecorators
+app =
+  decorators: new ContextDecorators
 
 # should be a global repo
 app.decorators.set 'person', Person
@@ -27,3 +36,54 @@ decorated-person = load-mw-stack.run person
 
 store-mw-stack = new Middleware('model').use(MarshallerMw)
 store-mw-stack.run decorated-person
+
+model-mw = requires.file 'index'
+
+ModelMw       = model-mw.mw
+ModelRunner   = model-mw.runner
+
+Middleware    = require('middleware').Middleware
+
+describe MarshallerMw ->
+  var some-hash, marshallers
+
+  mshal = {}
+
+  describe 'create instance' ->
+    context 'no args' ->
+      specify 'is created' ->
+        expect(new MarshallerMw.constructor).to.eql MarshallerMw
+
+    context 'with invalid marshallers hash' ->
+      before ->
+        some-hash = {x: 1}
+
+      specify 'is created' ->
+        expect( -> new MarshallerMw some-hash).to.throw
+
+    context 'with marshallers hash' ->
+      before ->
+        marshallers =
+          person: PersonMarshaller
+
+      specify 'is created' ->
+        expect( -> new MarshallerMw marshallers).to.not.throw
+
+
+  describe 'run' ->
+    before ->
+      marshallers =
+        person: PersonMarshaller
+
+      mshal.valid = new MarshallerMw marshallers
+
+    context 'no args' ->
+      specify 'is run ok' ->
+        expect(mshal.valid.run!).to.not.throw
+
+    context 'with valid context' ->
+      before ->
+        some-hash = {x: 1}
+
+      specify 'is run ok?' ->
+        expect(mshal.valid.run 'hello').to.not.throw
