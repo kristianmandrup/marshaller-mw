@@ -3,5 +3,7 @@
   var rek, requires;
   rek = require('rekuire');
   requires = rek('requires');
-  module.exports = requires.file('marshaller-mw');
+  module.exports = {
+    MarshalMw: requires.file('marshaller-mw')
+  };
 }).call(this);

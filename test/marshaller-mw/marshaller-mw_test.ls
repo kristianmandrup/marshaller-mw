@@ -13,7 +13,7 @@ Person              = requires.clazz 'person'
 # TODO: needs a start file like index.js to be found
 DecoratorMw         = require('decorator-mw')
 
-MarshallerMw        = require('marshaller-mw')
+MarshalMw        = requires.file ('marshaller-mw').MarshalMw
 ContextDecorators   = require('decorate-mw').ContextDecorators
 
 middleware = require 'middleware'
@@ -37,7 +37,7 @@ load-mw-stack = new Middleware('model').use(DecorateMw)
 # find and instantiate model class via clazz attribute (= 'person')
 decorated-person = load-mw-stack.run person
 
-store-mw-stack = new Middleware('model').use(MarshallerMw)
+store-mw-stack = new Middleware('model').use(MarshalMw)
 store-mw-stack.run decorated-person
 
 model-mw = requires.file 'index'
@@ -47,7 +47,7 @@ ModelRunner   = model-mw.runner
 
 Middleware    = require('middleware').Middleware
 
-describe MarshallerMw ->
+describe MarshalMw ->
   var some-hash, marshallers
 
   mshal = {}
@@ -55,14 +55,14 @@ describe MarshallerMw ->
   describe 'create instance' ->
     context 'no args' ->
       specify 'is created' ->
-        expect(new MarshallerMw.constructor).to.eql MarshallerMw
+        expect(new MarshalMw.constructor).to.eql MarshalMw
 
     context 'with invalid marshallers hash' ->
       before ->
         some-hash = {x: 1}
 
       specify 'is created' ->
-        expect( -> new MarshallerMw some-hash).to.throw
+        expect( -> new MarshalMw some-hash).to.throw
 
     context 'with marshallers hash' ->
       before ->
@@ -70,7 +70,7 @@ describe MarshallerMw ->
           person: PersonMarshaller
 
       specify 'is created' ->
-        expect( -> new MarshallerMw marshallers).to.not.throw
+        expect( -> new MarshalMw marshallers).to.not.throw
 
 
   describe 'run' ->
@@ -78,7 +78,7 @@ describe MarshallerMw ->
       marshallers =
         person: PersonMarshaller
 
-      mshal.valid = new MarshallerMw marshallers
+      mshal.valid = new MarshalMw marshallers
 
     context 'no args' ->
       specify 'is run ok' ->

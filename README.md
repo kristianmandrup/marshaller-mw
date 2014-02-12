@@ -4,7 +4,8 @@ Middleware to serialize object to server (remove or transform certain properties
 
 ## TODO
 
-Create test suite
+* Create test suite
+* Rename to MarshalMw ??
 
 ## Marshaller
 
