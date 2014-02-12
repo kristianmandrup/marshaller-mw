@@ -1,10 +1,8 @@
-# Decorator Mw
+# Marshaller Mw
 
-Middleware to serialize object to server
+Middleware to serialize object to server (remove or transform certain properties)
 
 ## TODO
-
-Add *requires* and *debugger*
 
 Create test suite
 
@@ -13,8 +11,15 @@ Create test suite
 Create mw-stack to authorize storage mutation action, then validate state, then marshal
 
 ```LiveScript
-store-mw-stack = new Middleware('model').use(authorize-mw).use(validate-mw).use(MarshallerMw)
+store-mw-stack = new Middleware('model').use(MarshallerMw)
 store-mw-stack.run decorated-person
 ```
 
-See also *decorator-mw* project
+or more advanced config
+
+```LiveScript
+store-mw-stack = new Middleware('model').use(authorize-mw).use(validate-mw).use(MarshallerMw).use(RacerMw)
+store-mw-stack.run decorated-person
+```
+
+See also [decorator-mw](https://github.com/kristianmandrup/decorator-mw)

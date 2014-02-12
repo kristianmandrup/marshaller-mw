@@ -1,3 +1,4 @@
+ModelMw = require('model-mw').ModelMw
 ContextDecorations = require('decorator-mw').ContextDecorations
 
 module.exports = class MarshallerMw extends ModelMw
