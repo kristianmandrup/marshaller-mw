@@ -1,4 +1,4 @@
-Class = require('jsclass/src/core').ClassM
+Class = require('jsclass/src/core').Class
 
 Encrypter = new Class(
   # override!!
@@ -7,7 +7,7 @@ Encrypter = new Class(
 )
 
 Marshaller = new Class(
-  delete-properties: (names...) ->
+  delete-properties: (...names) ->
     names.flatten.compact.each (name) ->
       delete @data[name]
  
@@ -20,7 +20,8 @@ Marshaller = new Class(
  
 PersonMarshaller = new Class(Marshaller,
   intialize: (@data) ->
-  
+    @call-super!
+
   marshal: ->
     @encrypt @data.password
     delete @data.status

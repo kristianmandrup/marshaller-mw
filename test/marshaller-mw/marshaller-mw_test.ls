@@ -8,15 +8,18 @@ expect = require('chai').expect
 
 _  = require 'prelude-ls'
 
-Person              = requires.claszz 'person'
-DecorateMw          = require('decorate-mw')
+Person              = requires.clazz 'person'
+
+# TODO: needs a start file like index.js to be found
+DecoratorMw         = require('decorator-mw')
+
 MarshallerMw        = require('marshaller-mw')
 ContextDecorators   = require('decorate-mw').ContextDecorators
 
 middleware = require 'middleware'
 Middleware = middleware.Middleware
 
-load-mw-stack = new Middleware('model').use(decorate: DecorateMw)
+load-mw-stack = new Middleware('model').use(decorate: DecoratorMw)
 
 app =
   decorators: new ContextDecorators

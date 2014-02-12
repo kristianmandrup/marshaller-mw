@@ -19,16 +19,18 @@ test-path = (...paths) ->
 marshaller-path = (...paths) ->
   full-path 'marshallers', ...paths
 
-
 module.exports =
   test: (...paths) ->
     require test-path(...paths)
 
-  marshaller: (paths) ->
-    @fixtures 'marshallers', path
+  marshaller: (...paths) ->
+    @fixtures 'marshallers', paths
 
-  fixture: (path) ->
-    @test 'fixtures', path
+  clazz: (...paths) ->
+    @fixture 'classes', paths
+
+  fixture: (...paths) ->
+    @test 'fixtures', paths
 
   file: (path) ->
     require full-path('.', path)
