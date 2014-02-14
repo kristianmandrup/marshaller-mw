@@ -2,23 +2,49 @@
 
 Middleware to serialize object to server (remove or transform certain properties)
 
-## TODO
+Works well with other mw-components for the *middleware* project
 
-* Complete test suite
-* Rename to MarshalMw ??
+* [middleware](https://github.com/kristianmandrup/middleware)
+* [model-mw](https://github.com/kristianmandrup/model-mw)
+* [authorize-mw](https://github.com/kristianmandrup/authorize-mw)
+* [validator-mw](https://github.com/kristianmandrup/validator-mw)
+* [decorator-mw](https://github.com/kristianmandrup/decorator-mw)
+* [racer-mw](https://github.com/kristianmandrup/racer-mw)
 
 ## Marshaller
 
-Create mw-stack to authorize storage mutation action, then validate state, then marshal
+The marshal-mw builds on functionality provided by [decorator-mw](https://github.com/kristianmandrup/decorator-mw).
+It similarly allows for marshalling objects differently depending on context. 
+
+Simple MW marshal example
 
 ```LiveScript
+# generic middleware "runner"
+Middleware   = require('middleware).Middleware
+
+# load Mw-component classes
+MarshallerMw = require('marshaller-mw).Mw
+
+# configure middleware stack to be run
 store-mw-stack = new Middleware('model').use(MarshallerMw)
-store-mw-stack.run decorated-person
+
+# run mw stack on a "decorated" person
+marshal-ready-person = store-mw-stack.run decorated-person
 ```
 
-or more advanced config
+More Middleware advanced config
+
+Create mw-stack to:
+- authorize storage mutation action (f.ex 'update')
+- validate document to be stored (f.ex person)
+- marshal person (strip properties not to be stored, encrypt sensitive data etc.)
+- save person via Racer sync layer
 
 ```LiveScript
+MarshallerMw = require('marshaller-mw).Mw
+Middleware   = require('middleware).Middleware
+
+# config complete middleware stack for use with updates/creates
 store-mw-stack = new Middleware('model').use(authorize-mw).use(validate-mw).use(MarshallerMw).use(RacerMw)
 store-mw-stack.run decorated-person
 ```
@@ -36,6 +62,10 @@ Then whenever you change code in local `decorator-mw` folder, it will be reflect
 since node module `decorator-mw` is now a symbolic link :)
 
 Please continue further development by a Test Driven approach (tests first)
+
+## TODO
+
+* Complete test suite and improve API + DSL
 
 ## Testing
 
