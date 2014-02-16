@@ -1,5 +1,4 @@
-rek       = require 'rekuire'
-requires  = rek 'requires'
+requires  = require '../../requires'
 
 requires.test 'test_setup'
 
@@ -10,52 +9,36 @@ _  = require 'prelude-ls'
 
 Person              = requires.clazz 'person'
 
+PersonMarshaller    = requires.marshaller 'person_marshaller'
+
 # TODO: needs a start file like index.js to be found
 DecoratorMw         = require('decorator-mw')
 
-MarshalMw        = requires.file ('marshaller-mw').MarshalMw
-ContextDecorators   = require('decorate-mw').ContextDecorators
+MarshalMw         = requires.lib ('marshaller-mw')
+CtxDecorations     = require('decorator-mw').CtxDecorations
 
 middleware = require 'middleware'
 Middleware = middleware.Middleware
 
-load-mw-stack = new Middleware('model').use(decorate: DecoratorMw)
-
 app =
-  decorators: new ContextDecorators
+  decorators: new CtxDecorations
 
-# should be a global repo
-app.decorators.set 'person', Person
 
-person =
-  name: 'Joe 6 Pack'
-  age: 28
-  clazz: 'person' # important!
-
-load-mw-stack = new Middleware('model').use(DecorateMw)
-
-# find and instantiate model class via clazz attribute (= 'person')
-decorated-person = load-mw-stack.run person
-
-store-mw-stack = new Middleware('model').use(MarshalMw)
-store-mw-stack.run decorated-person
-
-model-mw = requires.file 'index'
-
-ModelMw       = model-mw.mw
-ModelRunner   = model-mw.runner
-
-Middleware    = require('middleware').Middleware
-
-describe MarshalMw ->
+describe 'MarshalMw' ->
   var some-hash, marshallers
 
   mshal = {}
 
   describe 'create instance' ->
     context 'no args' ->
+      before ->
+        mshal.empty = new MarshalMw
+
       specify 'is created' ->
-        expect(new MarshalMw.constructor).to.eql MarshalMw
+        expect(mshal.empty).to.not.equal null
+
+      specify 'has marshallers' ->
+        expect(mshal.empty.marshallers).to.not.equal null
 
     context 'with invalid marshallers hash' ->
       before ->
@@ -78,15 +61,15 @@ describe MarshalMw ->
       marshallers =
         person: PersonMarshaller
 
-      mshal.valid = new MarshalMw marshallers
+      mshal.valid = new MarshalMw marshallers, mode: 'alone'
 
     context 'no args' ->
       specify 'is run ok' ->
-        expect(mshal.valid.run!).to.not.throw
+        expect(-> mshal.valid.run!).to.not.throw
 
     context 'with valid context' ->
       before ->
         some-hash = {x: 1}
 
       specify 'is run ok?' ->
-        expect(mshal.valid.run 'hello').to.not.throw
+        expect(-> mshal.valid.run 'hello', mode: 'alone').to.not.throw

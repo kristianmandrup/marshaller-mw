@@ -1,5 +1,4 @@
-rek       = require 'rekuire'
-requires  = rek 'requires'
+requires  = require './requires'
 
 module.exports =
-  MarshalMw : requires.file 'marshaller-mw'
+  MarshalMw : requires.lib 'marshaller-mw'

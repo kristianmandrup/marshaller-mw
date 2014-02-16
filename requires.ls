@@ -1,6 +1,5 @@
 require 'sugar'
 
-rek = require 'rekuire'
 _   = require 'prelude-ls'
 
 underscore = (...items) ->
@@ -24,7 +23,7 @@ module.exports =
     require test-path(...paths)
 
   marshaller: (...paths) ->
-    @fixtures 'marshallers', paths
+    @fixture 'marshallers', paths
 
   clazz: (...paths) ->
     @fixture 'classes', paths
@@ -32,8 +31,11 @@ module.exports =
   fixture: (...paths) ->
     @test 'fixtures', paths
 
-  file: (path) ->
-    require full-path('.', path)
+  file: (...paths) ->
+    require full-path('.', ...paths)
+
+  lib: (...paths) ->
+    @file('lib', ...paths)
 
   # m - alias for module
   m: (path) ->
