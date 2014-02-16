@@ -1,11 +1,24 @@
 Class = require('jsclass/src/core').Class
 
+requires  = require '../requires'
+lo        = require 'lodash'
+
 Encrypter = requires.util 'encrypter'
 
 Marshaller = new Class(
+  initialize: (data) ->
+    @set-data data
+    @
+
+  # override to do specific initialization
+  set-data: (data) ->
+    @data = lo.extend {}, data
+
   delete-properties: (...names) ->
-    names.flatten.compact.each (name) ->
-      delete @data[name]
+    return if lo.is-empty names
+    self = @
+    names.flatten!.each (name) ->
+      delete self.data[name]
  
   encrypt: (value) ->
     @encrypter.encrypt value

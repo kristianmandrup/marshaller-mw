@@ -5,12 +5,24 @@
   requires = require('../../../requires');
   Marshaller = requires.lib('marshaller');
   PersonMarshaller = new Class(Marshaller, {
-    intialize: function(data){
+    initialize: function(data){
+      return this.callSuper();
+    },
+    setData: function(data){
       this.data = data;
       return this.callSuper();
     },
-    marshal: function(){
-      if (this.data.password) {
+    marshal: function(data){
+      if (data) {
+        this.setData(data);
+      }
+      if (this.data === void 8) {
+        throw Error("No data to marshal, please pass data-object to marshal either in the Marshaller constructor or directly when calling marshal");
+      }
+      if (typeof this.data !== 'object') {
+        throw Error("Invalid data to marshal, must be an Object, was: " + this.data);
+      }
+      if (this.data.password != null) {
         this.data.password = this.encrypt(this.data.password);
       }
       delete this.data.status;
