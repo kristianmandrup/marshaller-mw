@@ -1,3 +1,5 @@
+requires  = require '../../requires'
+
 requires.clazz 'person'
 
 module.exports = 

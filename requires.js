@@ -61,6 +61,11 @@
       paths = slice$.call(arguments);
       return this.file.apply(this, ['lib'].concat(slice$.call(paths)));
     },
+    util: function(){
+      var paths;
+      paths = slice$.call(arguments);
+      return this.lib.apply(this, ['util'].concat(slice$.call(paths)));
+    },
     m: function(path){
       return this.file(path);
     },

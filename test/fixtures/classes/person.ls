@@ -1,5 +1,4 @@
-rek       = require 'rekuire'
-requires  = rek 'requires'
+requires  = require '../../../requires'
 
 _  = require 'prelude-ls'
 
@@ -7,10 +6,12 @@ Class = require('jsclass/src/core').Class
 
 BaseModel = requires.clazz 'base_model'
 
-module.exports = new Class(BaseModel,
+Person = new Class(BaseModel,
   initialize: (obj) ->
     @callSuper!
 
   fullName: ->
     [@firs-name, @last-name].join ' '
 )
+
+module.exports = Person

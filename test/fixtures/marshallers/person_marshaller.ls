@@ -1,31 +1,20 @@
 Class = require('jsclass/src/core').Class
 
-Encrypter = new Class(
-  # override!!
-  encrypt: (data) ->
-    "x-#{data}-x"
-)
+requires  = require '../../../requires'
 
-Marshaller = new Class(
-  delete-properties: (...names) ->
-    names.flatten.compact.each (name) ->
-      delete @data[name]
- 
-  encrypt: (value) ->
-    @encrypter.encrypt value
- 
-  encrypter: ->
-    new Encrypter
-)
- 
+Marshaller = requires.lib 'marshaller'
+
 PersonMarshaller = new Class(Marshaller,
   intialize: (@data) ->
     @call-super!
 
   marshal: ->
-    @encrypt @data.password
+    if @data.password
+      @data.password = @encrypt @data.password
     delete @data.status
     
-    delete-properties 'age', 'color'
+    @delete-properties 'age', 'color'
     @data
 )
+
+module.exports = PersonMarshaller

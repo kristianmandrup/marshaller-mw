@@ -1,3 +1,5 @@
+requires  = require '../../requires'
+
 requires.marshaller 'person'
 
 module.exports =

@@ -35,7 +35,10 @@ module.exports =
     require full-path('.', ...paths)
 
   lib: (...paths) ->
-    @file('lib', ...paths)
+    @file 'lib', ...paths
+
+  util: (...paths) ->
+    @lib 'util', ...paths
 
   # m - alias for module
   m: (path) ->
