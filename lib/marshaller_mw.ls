@@ -11,7 +11,7 @@ module.exports = class MarshallerMw extends ModelMw
       app.marshallers
 
   create-marshallers: (context) ->
-    new ContextDecorations context
+    new ContextMarshallers context
 
   # lookup context
   # find decoration based on klass and context
@@ -20,7 +20,7 @@ module.exports = class MarshallerMw extends ModelMw
   # set model (singular) and collection (plural), using inflection
   run: (ctx) ->
     super ...
-    # TODO: refactor similar to Decorate, use marshal directly on the marshaller
+
     # See DecoratorMw run method :)
-    klass = @marshallers.get @context, @model
-    new klass(@data).marshal!
+    ctx-marshaller = @marshallers.ctx @context
+    ctx-marshaller.marshal @data, @model
