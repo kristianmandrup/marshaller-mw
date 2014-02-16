@@ -14,6 +14,7 @@ PersonMarshaller    = requires.marshaller 'person_marshaller'
 person =
   name: 'Joe 6 Pack'
   age: 28
+  status: 'single'
   clazz: 'person' # important!
 
 describe 'Marshaller' ->

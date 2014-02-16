@@ -16,7 +16,56 @@ Works well with other mw-components for the *middleware* project
 The marshal-mw builds on functionality provided by [decorator-mw](https://github.com/kristianmandrup/decorator-mw).
 It similarly allows for marshalling objects differently depending on context. 
 
-Simple MW marshal example
+*Simple* MW marshal example
+
+```LiveScript
+Person = new Class(BaseModel,
+  initialize: (obj) ->
+    @callSuper!
+
+  fullName: ->
+    [@firs-name, @last-name].join ' '
+)
+
+PersonMarshaller = new Class(Marshaller,
+  marshal: (data) ->
+    @call-super!
+    if @data.password?
+      @data.password = @encrypt @data.password
+    delete @data.status
+    @delete-properties 'age', 'online'
+    @data
+)
+
+
+person =
+  name: 'Joe 6 Pack'
+  age: 28
+  status: 'single'
+  clazz: 'person'
+
+# init marshaller with person, then marshal
+person-marshaller = new PersonMarshaller person
+marshalled-person = person-marshaller.marshal!
+
+# alternative
+person-marshaller = new PersonMarshaller
+marshalled-person = person-marshaller.marshal person
+
+# result
+
+console.log marshalled-person
+
+=> {
+  name: 'Joe 6 Pack'
+  clazz: 'person'
+}
+
+```
+
+*Advanced* MW marshal example
+
+Using Marshaller Mw-component as part of a middleware stack
 
 ```LiveScript
 # generic middleware "runner"
@@ -32,13 +81,20 @@ store-mw-stack = new Middleware('model').use(MarshallerMw)
 marshal-ready-person = store-mw-stack.run decorated-person
 ```
 
-More Middleware advanced config
+Middleware advanced config:
 
 Create mw-stack to:
 - authorize storage mutation action (f.ex 'update')
 - validate document to be stored (f.ex person)
 - marshal person (strip properties not to be stored, encrypt sensitive data etc.)
 - save person via Racer sync layer
+
+Note: In the above example, it might sometimes make sense to have two marshalling layers.
+One before validation to strip temporal session data such as online status (which should not be validated?) and one before storage
+to encrypt passwords and treat sensitive data for storage. The middleware approach grants you the flexibility to insert
+these layers in whatever stack layout that you require.
+
+See [middleware](https://github.com/kristianmandrup/middleware)
 
 ```LiveScript
 MarshallerMw = require('marshaller-mw).Mw

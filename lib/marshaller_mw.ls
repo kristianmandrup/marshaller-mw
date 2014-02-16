@@ -20,5 +20,7 @@ module.exports = class MarshallerMw extends ModelMw
   # set model (singular) and collection (plural), using inflection
   run: (ctx) ->
     super ...
+    # TODO: refactor similar to Decorate, use marshal directly on the marshaller
+    # See DecoratorMw run method :)
     klass = @marshallers.get @context, @model
     new klass(@data).marshal!

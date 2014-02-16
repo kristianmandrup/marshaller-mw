@@ -11,6 +11,7 @@
   person = {
     name: 'Joe 6 Pack',
     age: 28,
+    status: 'single',
     clazz: 'person'
   };
   describe('Marshaller', function(){
