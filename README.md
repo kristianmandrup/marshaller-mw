@@ -1,5 +1,7 @@
 # Marshaller Mw
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kristianmandrup/marshaller-mw.svg)](https://greenkeeper.io/)
+
 Middleware to serialize object to server (remove or transform certain properties)
 
 Works well with other mw-components for the *middleware* project
